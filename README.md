@@ -58,7 +58,8 @@ Ask a question:
 
 tux ask "How do I update my system?"
 
-Tux keeps recent raw conversations in `/tmp/tux/memory.json` so a new session can
+Tux keeps recent raw conversations in `$XDG_STATE_HOME/memory/tux/memory.json`
+(falling back to `~/.local/state/memory/tux/memory.json`) so a new session can
 answer follow-ups about earlier sessions. Entries expire after 30 days by default;
 set `TUX_SHORT_TERM_MEMORY_RETENTION_SECONDS` to change the retention period.
 Completed sessions are also summarized and stored in the local `tux` PostgreSQL

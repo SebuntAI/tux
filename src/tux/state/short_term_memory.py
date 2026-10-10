@@ -12,7 +12,14 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from tux.cli.session.state import Session
 
-MEMORY_PATH = Path("/tmp/tux/memory.json")
+def _default_memory_path() -> Path:
+    """Return Tux's application-specific short-term memory path."""
+    base = os.environ.get("XDG_STATE_HOME")
+    root = Path(base) if base else Path.home() / ".local" / "state"
+    return root / "memory" / "tux" / "memory.json"
+
+
+MEMORY_PATH = _default_memory_path()
 DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60
 RETENTION_ENV = "TUX_SHORT_TERM_MEMORY_RETENTION_SECONDS"
 MAX_CONTEXT_SESSIONS = 3
