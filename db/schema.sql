@@ -1,6 +1,6 @@
   CREATE EXTENSION IF NOT EXISTS vector;
 
-  DROP TABLE IF EXISTS threads, requests, responses;
+DROP TABLE IF EXISTS threads, requests, responses;
 
   CREATE TABLE IF NOT EXISTS threads (
       id                BIGSERIAL PRIMARY KEY,
@@ -47,7 +47,7 @@
       TO assistant;
 
   ALTER DEFAULT PRIVILEGES IN SCHEMA public
-      GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO human;
+      GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO tux, human;
 
   ALTER DEFAULT PRIVILEGES IN SCHEMA public
       GRANT SELECT ON TABLES TO assistant;
@@ -57,4 +57,4 @@
       TO tux, human;
 
   ALTER DEFAULT PRIVILEGES IN SCHEMA public
-      GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO human;
+      GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO tux, human;

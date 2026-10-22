@@ -13,18 +13,18 @@ class _StopSignal(Protocol):
         """Block up to ``timeout`` seconds; return whether the signal is set."""
 
 
-def frames() -> Iterator[str]:
+def frames(label: str = _LABEL) -> Iterator[str]:
     """Yield successive indicator frames, cycling the glyphs indefinitely."""
     index = 0
     while True:
         glyph = _GLYPHS[index % len(_GLYPHS)]
-        yield f"\r{_ERASE_TO_END}{_DIM}{glyph} {_LABEL}{_RESET}"
+        yield f"\r{_ERASE_TO_END}{_DIM}{glyph} {label}{_RESET}"
         index += 1
 
 
-def _spin(stream: TextIO, stop: _StopSignal) -> None:
+def _spin(stream: TextIO, stop: _StopSignal, label: str = _LABEL) -> None:
     """Write frames to ``stream`` until ``stop`` is signalled."""
-    for frame in frames():
+    for frame in frames(label):
         stream.write(frame)
         stream.flush()
         if stop.wait(_INTERVAL):

@@ -7,11 +7,11 @@ from contextlib import contextmanager
 from typing import TextIO
 
 from .animation import _spin
-from .constants import _CLEAR_LINE, _HIDE_CURSOR, _SHOW_CURSOR
+from .constants import _CLEAR_LINE, _HIDE_CURSOR, _LABEL, _SHOW_CURSOR
 
 
 @contextmanager
-def thinking(stream: TextIO | None = None) -> Iterator[None]:
+def thinking(stream: TextIO | None = None, *, label: str = _LABEL) -> Iterator[None]:
     """Animate the thinking indicator for the duration of the wrapped block."""
     out = sys.stdout if stream is None else stream
     if not out.isatty():
@@ -21,7 +21,7 @@ def thinking(stream: TextIO | None = None) -> Iterator[None]:
     stop = threading.Event()
     out.write(_HIDE_CURSOR)
     out.flush()
-    thread = threading.Thread(target=_spin, args=(out, stop), daemon=True)
+    thread = threading.Thread(target=_spin, args=(out, stop, label), daemon=True)
     thread.start()
     try:
         yield
